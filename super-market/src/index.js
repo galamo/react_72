@@ -1,0 +1,22 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import Application from './App';
+import reportWebVitals from './reportWebVitals';
+
+ReactDOM.render(
+  <React.StrictMode>
+    <Application />
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+// render(<Application/>, "root")
+// function render(whatToRender, whereToRender) {
+//   const content = document.getElementById(whereToRender)
+//   content.append(what)
+// }
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
