@@ -31,3 +31,11 @@
 1. Create component which recieve image url, height, width
 2. the Component will return the requested image OR the default image with the defaule size 
 https://thumbs.dreamstime.com/b/no-image-available-icon-flat-vector-no-image-available-icon-flat-vector-illustration-132482953.jpg
+
+
+# Homework
+Create A Product Component
+1. Name h1
+2. Price Span
+3. Image - product image
+4. category - h3 
