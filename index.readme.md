@@ -26,3 +26,8 @@
 1. create react application
 2. run the project
 3. change the logo to your desired
+
+# Ex 2: 
+1. Create component which recieve image url, height, width
+2. the Component will return the requested image OR the default image with the defaule size 
+https://thumbs.dreamstime.com/b/no-image-available-icon-flat-vector-no-image-available-icon-flat-vector-illustration-132482953.jpg
