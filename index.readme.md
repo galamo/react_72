@@ -53,7 +53,7 @@ Create A Product Component
 1. Create Increase decrease functionality to our Header component 
 
 
-# Homework
+# Homework 16-02
 1. Create Products Table View
 2. Support delete row from product view
-3. Advanced: Create Product Search Input 
+3. Advanced: Create Product Search Input
