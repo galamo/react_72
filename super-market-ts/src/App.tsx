@@ -1,4 +1,4 @@
-import React, { Component, ReactElement } from 'react';
+import React, { Component, ReactElement, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { JsxElement } from 'typescript';
@@ -70,11 +70,23 @@ interface ISuperHeaderProps {
   headerText: string
 }
 
+
+
 function SuperHeader(props: ISuperHeaderProps): any | undefined {
+  // Hooks
+  console.log("Component SuperHeader Render")
+  const initialState: boolean = false;
+  const [isSelected, setIsSelected] = useState(initialState)
+  console.log(`Component State value: ${isSelected}`)
+  // setIsSelected(true) DONT DO THIS!!!!!
   const { headerText } = props
   const currentHeader = headerText || "Default_Mssing_Header"
-  const dateTime = new Date().toLocaleDateString()
-  return <div> <h1 style={{ color: "green" }}> {currentHeader} {dateTime} </h1> </div>
+  const dateTime = new Date().getTime()
+  console.log(`After Date: ${dateTime}`)
+
+  return <div style={{ cursor: "pointer" }} onClick={() => {
+    setIsSelected(!isSelected)
+  }}> <h1 style={{ color: "green", background: isSelected ? "yellow" : "white " }}> {currentHeader} {dateTime} {isSelected.toString()}</h1> </div>
 }
 
 interface IImageProps {
@@ -84,6 +96,7 @@ interface IImageProps {
 }
 
 function ImageComponent(props: IImageProps) {
+
   const { imageUrl, height, width } = props;
   const defaultImage: string = "https://thumbs.dreamstime.com/b/no-image-available-icon-flat-vector-no-image-available-icon-flat-vector-illustration-132482953.jpg"
   const image = imageUrl || defaultImage
