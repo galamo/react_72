@@ -1,7 +1,7 @@
 import React, { Component, ReactElement, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { JsxElement } from 'typescript';
+
 
 const dateTime = new Date().toLocaleDateString()
 const headerText = <div> <h1> Mini Super {dateTime} </h1> </div>
@@ -63,11 +63,12 @@ function Products() {
 
 function MainSuperHeader() {
   const dateTime = new Date().toLocaleDateString()
-  return <div> <h1> Mini Super {dateTime} </h1> </div>
+  return <div > <h1> Mini Super {dateTime} </h1> </div>
 }
 
 interface ISuperHeaderProps {
   headerText: string
+  textSizeUnitChange?: number
 }
 
 
@@ -76,17 +77,29 @@ function SuperHeader(props: ISuperHeaderProps): any | undefined {
   // Hooks
   console.log("Component SuperHeader Render")
   const initialState: boolean = false;
+  const initialSize: number = 35
   const [isSelected, setIsSelected] = useState(initialState)
+  const [textSize, setTextSize] = useState(initialSize)
+
   console.log(`Component State value: ${isSelected}`)
   // setIsSelected(true) DONT DO THIS!!!!!
-  const { headerText } = props
+  const { headerText, textSizeUnitChange } = props
   const currentHeader = headerText || "Default_Mssing_Header"
   const dateTime = new Date().getTime()
   console.log(`After Date: ${dateTime}`)
 
-  return <div style={{ cursor: "pointer" }} onClick={() => {
-    setIsSelected(!isSelected)
-  }}> <h1 style={{ color: "green", background: isSelected ? "yellow" : "white " }}> {currentHeader} {dateTime} {isSelected.toString()}</h1> </div>
+  return <div style={{ cursor: "pointer" }} >
+    <h1 onClick={() => {
+      setIsSelected(!isSelected)
+    }} style={{ color: "green", background: isSelected ? "yellow" : "white", fontSize: textSize }}> {currentHeader}
+      {isSelected.toString()}</h1>
+    <button onClick={() => {
+      setTextSize(textSize + (textSizeUnitChange || DEFAULT_UNIT))
+    }} className='btn btn-primary'>+</button>
+    <button onClick={() => {
+      setTextSize(textSize - (textSizeUnitChange || DEFAULT_UNIT))
+    }} className='btn btn-primary'>-</button>
+  </div>
 }
 
 interface IImageProps {
@@ -121,13 +134,21 @@ function Product(props: {
   )
 
 }
-
+const DEFAULT_UNIT: number = 2
 function App() {
+  const initialUnit: number = DEFAULT_UNIT
+  const [unit, setUnit] = useState(initialUnit)
+
   return (
     <div className="App">
       {/* <MainSuperHeader /> */}
-      <SuperHeader headerText='Mini Super' />
-      <SuperHeader headerText='Products list' />
+      <div className=''>
+        Unit <input onChange={(e) => {
+          setUnit(parseInt(e.target.value));
+        }} style={{ width: "100px", display: "inline-block" }} type="number" className='form-control' />
+      </div>
+      <SuperHeader headerText='Mini Super' textSizeUnitChange={unit} />
+      <SuperHeader headerText='Products list' textSizeUnitChange={unit} />
       <h2> Hi i am the manager: </h2>
       <ImageComponent imageUrl='https://i.pinimg.com/236x/ca/6d/0f/ca6d0f9248915942ebe0d63038756fad.jpg' height={400} width={500} />
       <Products />
