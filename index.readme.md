@@ -39,3 +39,15 @@ Create A Product Component
 2. Price Span
 3. Image - product image
 4. category - h3 
+
+
+
+# State
+1. object
+2. fully controlled by component
+3. similiar to props BUT we can change it, props are readonly
+4. reflects the application status/state/UI
+
+
+# EX 3:
+1. Create Increase decrease functionality to our Header component 
