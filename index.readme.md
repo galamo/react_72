@@ -57,3 +57,17 @@ Create A Product Component
 1. Create Products Table View
 2. Support delete row from product view
 3. Advanced: Create Product Search Input
+
+
+
+# EX 4
+1. Try to seperate the Search input to another component
+2. add DDL with Name,Category, price filtering 
+
+
+
+# Homework
+1. Create new react application
+2. Add Form for creating your vacations album
+3. Form will contain, vacation date, image, short description
+4. Show all the images with the details in the main page + delete option
