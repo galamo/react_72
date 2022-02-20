@@ -57,3 +57,10 @@ Create A Product Component
 1. Create Products Table View
 2. Support delete row from product view
 3. Advanced: Create Product Search Input
+
+
+
+# EX 4
+1. Try to seperate the Search input to another component
+2. add DDL with Name,Category, price filtering 
+
