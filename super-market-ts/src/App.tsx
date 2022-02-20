@@ -4,7 +4,7 @@ import './App.css';
 import { FcGrid } from "react-icons/fc"
 import { CgCardSpades } from "react-icons/cg"
 import { AiFillDelete } from "react-icons/ai"
-
+import css from "./app.module.css"
 
 
 const dateTime = new Date().toLocaleDateString()
@@ -60,6 +60,20 @@ const data = [{
   "image": "http://placehold.it/300x300/999/CCC"
 }]
 
+function Search(props: { onInputChange: Function }) {
+  return (
+    <input onChange={({ target }) => {
+      // set your state to contain the target.value
+      const { value } = target;
+      props.onInputChange(value)
+    }}
+      type="text"
+      className="form-control"
+      placeholder="search"
+      aria-label="Username"
+      aria-describedby="basic-addon1" />
+  )
+}
 
 function ProductsPage() {
   const initialState: boolean = false
@@ -83,21 +97,13 @@ function ProductsPage() {
   const currentProducts = _filterProducts(searchValue, productsGlobal) || productsGlobal
   return (
     <div className='container'>
-      <div className="row" style={{ background: "green" }}>
-        {/* css module */}
-        <input onChange={({ target }) => {
-          // set your state to contain the target.value
-          const { value } = target;
-          setSearchValue(value)
-        }} style={{ width: "200px" }}
-          type="text"
-          className="form-control"
-          placeholder="search"
-          aria-label="Username"
-          aria-describedby="basic-addon1" />
-      </div>
-      <div className="row" style={{ background: "yellow" }}>
-        <div style={{ textAlign: "left" }}>
+      <div className="row">
+        <div className={`col align-self-start ${css.searchContainer}`} >
+          <div className='col-lg-3'>
+            <Search onInputChange={setSearchValue} />
+          </div>
+        </div>
+        <div className={`col-1 align-self-end ${css.viewButtons}`} >
           <button className='btn btn-success' onClick={() => { setIsTableView(true) }}><FcGrid /> </button>
           <button className='btn btn-success' onClick={() => { setIsTableView(false) }}><CgCardSpades /> </button>
         </div>
@@ -267,17 +273,25 @@ function App() {
     <div className="App">
       <SuperHeader headerText='Mini Super' textSizeUnitChange={unit} />
       <ProductsPage />
-      <div className=''>
-        Unit <input onChange={(e) => {
-          setUnit(parseInt(e.target.value));
-        }} style={{ width: "100px", display: "inline-block" }} type="number" className='form-control' />
-      </div>
-      <SuperHeader headerText='Mini Super' textSizeUnitChange={unit} />
-      <SuperHeader headerText='Products list' textSizeUnitChange={unit} />
-      <h2> Hi i am the manager: </h2>
-      <ImageComponent imageUrl='https://helios-i.mashable.com/imagery/articles/01eIvreZ9sXEnn1jUU6nyQM/images-93.fit_lim.size_2000x.v1628282411.jpg' height={400} width={500} />
+      {false && <DontShowMe />}
     </div >
   );
+
+  function DontShowMe() {
+    return (
+      <div>
+        <div className=''>
+          Unit <input onChange={(e) => {
+            setUnit(parseInt(e.target.value));
+          }} style={{ width: "100px", display: "inline-block" }} type="number" className='form-control' />
+        </div>
+        <SuperHeader headerText='Mini Super' textSizeUnitChange={unit} />
+        <SuperHeader headerText='Products list' textSizeUnitChange={unit} />
+        <h2> Hi i am the manager: </h2>
+        <ImageComponent imageUrl='https://helios-i.mashable.com/imagery/articles/01eIvreZ9sXEnn1jUU6nyQM/images-93.fit_lim.size_2000x.v1628282411.jpg' height={400} width={500} />
+      </div>
+    )
+  }
 }
 
 export default App;
