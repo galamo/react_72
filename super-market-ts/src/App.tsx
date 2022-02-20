@@ -77,14 +77,34 @@ function ProductsPage() {
         <button className='btn btn-success' onClick={() => { setIsTableView(true) }}><FcGrid /> </button>
         <button className='btn btn-success' onClick={() => { setIsTableView(false) }}><CgCardSpades /> </button>
       </div>
-      {isTableView ? <ProductsTable products={productsGlobal} /> : <ProductsCards onDeleteFn={_deleteCard} products={productsGlobal} />}
+      {isTableView ? <ProductsTable onDeleteFn={_deleteCard} products={productsGlobal} /> : <ProductsCards onDeleteFn={_deleteCard} products={productsGlobal} />}
     </div>
   )
 }
 
-function ProductsTable(props: { products: Array<any> }) {
-  return <img src="https://www.patternfly.org/v3/pattern-library/content-views/table-view/img/table-overview.png" alt="" />
-
+function ProductsTable(props: { products: Array<any>, onDeleteFn: Function }) {
+  // return <img src="https://www.patternfly.org/v3/pattern-library/content-views/table-view/img/table-overview.png" alt="" />
+  return <div>
+    <table className="table">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Price</th>
+          <th scope="col">Category</th>
+          <th scope="col">Image</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {props.products.map((p) => {
+          return <ProductRow key={p.id} {...p}
+            category={p.detail}
+            imageUrl={p.image}
+            onDeleteFn={props.onDeleteFn} />
+        })}
+      </tbody>
+    </table>
+  </div >
 }
 function ProductsCards(props: { products: Array<any>, onDeleteFn: Function }) {
   if (!Array.isArray(props.products)) return null;
@@ -99,6 +119,29 @@ function ProductsCards(props: { products: Array<any>, onDeleteFn: Function }) {
   </div>)
 
 }
+
+
+function ProductRow(props: {
+  name: string, price: number,
+  imageUrl: string, category: string, id: string, onDeleteFn: Function
+}) {
+  const { name, price, category, imageUrl, id } = props;
+
+  return (
+    <tr>
+      <td>{name}</td>
+      <td>{price}</td>
+      <td>{category}</td>
+      <td><ImageComponent imageUrl={imageUrl} /></td>
+      <td>  <button className='btn btn-danger' onClick={() => {
+        props.onDeleteFn(id)
+      }}> <AiFillDelete /> </button></td>
+    </tr>
+
+  )
+}
+
+
 
 
 function MainSuperHeader() {
