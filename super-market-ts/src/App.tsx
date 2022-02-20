@@ -60,6 +60,7 @@ const data = [{
   "image": "http://placehold.it/300x300/999/CCC"
 }]
 
+
 function ProductsPage() {
   const initialState: boolean = false
   const [isTableView, setIsTableView] = useState(initialState)
@@ -82,26 +83,26 @@ function ProductsPage() {
   const currentProducts = _filterProducts(searchValue, productsGlobal) || productsGlobal
   return (
     <div className='container'>
-      <div className="row">
+      <div className="row" style={{ background: "green" }}>
         {/* css module */}
         <input onChange={({ target }) => {
           // set your state to contain the target.value
           const { value } = target;
           setSearchValue(value)
-        }} style={{ width: "600px" }}
+        }} style={{ width: "200px" }}
           type="text"
           className="form-control"
           placeholder="search"
           aria-label="Username"
           aria-describedby="basic-addon1" />
       </div>
-      <div className="row">
+      <div className="row" style={{ background: "yellow" }}>
         <div style={{ textAlign: "left" }}>
           <button className='btn btn-success' onClick={() => { setIsTableView(true) }}><FcGrid /> </button>
           <button className='btn btn-success' onClick={() => { setIsTableView(false) }}><CgCardSpades /> </button>
         </div>
       </div>
-      <div className="row">
+      <div className="row" style={{ background: "red" }}>
         {isTableView ? <ProductsTable onDeleteFn={_deleteCard} products={currentProducts} /> : <ProductsCards onDeleteFn={_deleteCard} products={currentProducts} />}
       </div>
     </div>
