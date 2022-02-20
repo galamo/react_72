@@ -61,6 +61,41 @@ const data = [{
 }]
 
 
+function AddProduct(props: { addProduct: Function }) {
+  const [name, setName] = useState("")
+  const [category, setCategory] = useState("")
+  const [price, setPrice] = useState("")
+
+  return <div className='mb-4'>
+    <div className="input-group input-group-sm mb-3">
+      <div className="input-group-prepend">
+        <span className="input-group-text" id="inputGroup-sizing-sm">Name</span>
+      </div>
+      <input type="text" onChange={(e) => { setName(e.target.value) }} className="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" />
+    </div>
+
+    <div className="input-group mb-3">
+      <div className="input-group-prepend">
+        <span className="input-group-text" id="inputGroup-sizing-sm">Category</span>
+      </div>
+      <input type="text" onChange={(e) => { setCategory(e.target.value) }} className="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" />
+    </div>
+
+    <div className="input-group input-group-sm">
+      <div className="input-group-prepend">
+        <span className="input-group-text" id="inputGroup-sizing-sm">Price</span>
+      </div>
+      <input type="text" onChange={(e) => { setPrice(e.target.value) }} className="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" />
+    </div>
+    <div className="input-group input-group-sm">
+      <button className='btn btn-success' onClick={() => {
+        props.addProduct({ name, price, detail: category, id: `${name}_${Math.ceil(Math.random() * 1000)}` })
+      }} > add</button>
+    </div>
+
+  </div>
+}
+
 function SearchBy(props: { onSearchByChanage: Function }) {
   const { onSearchByChanage } = props;
   return (
@@ -131,6 +166,12 @@ function ProductsPage() {
         <div className={`col-1 align-self-end ${css.viewButtons}`} >
           <ViewButtons setIsTableView={setIsTableView} />
         </div>
+      </div>
+      <div className="row">
+        <AddProduct addProduct={(productObject: any) => {
+          console.log(productObject)
+          setProductsGlobal([...productsGlobal, productObject])
+        }} />
       </div>
       <div className="row" style={{ background: "red" }}>
         <TableView />
