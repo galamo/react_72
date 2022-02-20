@@ -60,6 +60,18 @@ const data = [{
   "image": "http://placehold.it/300x300/999/CCC"
 }]
 
+
+function SearchBy(props: { onSearchByChanage: Function }) {
+  const { onSearchByChanage } = props;
+  return (
+    <select onChange={(e) => { onSearchByChanage(e.target.value) }} className={css.selectContainer} id="inputGroupSelect02">
+      <option value="name" selected>Name</option>
+      <option value="price">Price</option>
+      <option value="detail">Category</option>
+    </select>
+  )
+}
+
 function Search(props: { onInputChange: Function }) {
   return (
     <input onChange={({ target }) => {
@@ -75,44 +87,60 @@ function Search(props: { onInputChange: Function }) {
   )
 }
 
+function ViewButtons(props: { setIsTableView: Function }) {
+  const { setIsTableView } = props
+  return <>
+    <button className='btn btn-success' onClick={() => { setIsTableView(true) }}><FcGrid /> </button>
+    <button className='btn btn-success' onClick={() => { setIsTableView(false) }}><CgCardSpades /> </button>
+  </>
+}
+
 function ProductsPage() {
   const initialState: boolean = false
   const [isTableView, setIsTableView] = useState(initialState)
   const [productsGlobal, setProductsGlobal] = useState(data)
   const [searchValue, setSearchValue] = useState("")
-
+  const [searchBy, setSearchBy] = useState("")
   function _deleteCard(id: string) {
     if (!id) return;
     const newProducts = productsGlobal.filter(p => p.id !== id);
     setProductsGlobal([...newProducts])
   }
 
-  function _filterProducts(s: string, products: Array<any>) {
+  function _filterProducts(s: string, searchBy: string, products: Array<any>) {
     if (!Array.isArray(products)) return products;
     if (!s) return products;
     const sToLower = s.toLowerCase()
-    return products.filter(product => product.name.toLowerCase().includes(sToLower))
+    return products.filter(product => product[searchBy].toLowerCase().includes(sToLower))
   }
 
-  const currentProducts = _filterProducts(searchValue, productsGlobal) || productsGlobal
+  const currentProducts = _filterProducts(searchValue, searchBy, productsGlobal) || productsGlobal
   return (
     <div className='container'>
-      <div className="row">
+      <div className="row mb-4">
         <div className={`col align-self-start ${css.searchContainer}`} >
-          <div className='col-lg-3'>
-            <Search onInputChange={setSearchValue} />
+          <div className="row">
+            <div className='col-3'>
+              <Search onInputChange={setSearchValue} />
+            </div>
+            <div className='col-3'>
+              <SearchBy onSearchByChanage={setSearchBy} />
+            </div>
           </div>
         </div>
         <div className={`col-1 align-self-end ${css.viewButtons}`} >
-          <button className='btn btn-success' onClick={() => { setIsTableView(true) }}><FcGrid /> </button>
-          <button className='btn btn-success' onClick={() => { setIsTableView(false) }}><CgCardSpades /> </button>
+          <ViewButtons setIsTableView={setIsTableView} />
         </div>
       </div>
       <div className="row" style={{ background: "red" }}>
-        {isTableView ? <ProductsTable onDeleteFn={_deleteCard} products={currentProducts} /> : <ProductsCards onDeleteFn={_deleteCard} products={currentProducts} />}
+        <TableView />
       </div>
     </div>
   )
+
+  function TableView() {
+    return isTableView ? <ProductsTable onDeleteFn={_deleteCard} products={currentProducts} /> : <ProductsCards onDeleteFn={_deleteCard} products={currentProducts} />
+  }
 }
 
 function ProductsTable(props: { products: Array<any>, onDeleteFn: Function }) {
