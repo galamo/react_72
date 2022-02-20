@@ -64,6 +64,7 @@ function ProductsPage() {
   const initialState: boolean = false
   const [isTableView, setIsTableView] = useState(initialState)
   const [productsGlobal, setProductsGlobal] = useState(data)
+  const [searchValue, setSearchValue] = useState("")
 
   function _deleteCard(id: string) {
     if (!id) return;
@@ -71,13 +72,38 @@ function ProductsPage() {
     setProductsGlobal([...newProducts])
   }
 
+  function _filterProducts(s: string, products: Array<any>) {
+    if (!Array.isArray(products)) return products;
+    if (!s) return products;
+    const sToLower = s.toLowerCase()
+    return products.filter(product => product.name.toLowerCase().includes(sToLower))
+  }
+
+  const currentProducts = _filterProducts(searchValue, productsGlobal) || productsGlobal
   return (
-    <div key={111213} className='container'>
-      <div style={{ textAlign: "left" }}>
-        <button className='btn btn-success' onClick={() => { setIsTableView(true) }}><FcGrid /> </button>
-        <button className='btn btn-success' onClick={() => { setIsTableView(false) }}><CgCardSpades /> </button>
+    <div className='container'>
+      <div className="row">
+        {/* css module */}
+        <input onChange={({ target }) => {
+          // set your state to contain the target.value
+          const { value } = target;
+          setSearchValue(value)
+        }} style={{ width: "600px" }}
+          type="text"
+          className="form-control"
+          placeholder="search"
+          aria-label="Username"
+          aria-describedby="basic-addon1" />
       </div>
-      {isTableView ? <ProductsTable onDeleteFn={_deleteCard} products={productsGlobal} /> : <ProductsCards onDeleteFn={_deleteCard} products={productsGlobal} />}
+      <div className="row">
+        <div style={{ textAlign: "left" }}>
+          <button className='btn btn-success' onClick={() => { setIsTableView(true) }}><FcGrid /> </button>
+          <button className='btn btn-success' onClick={() => { setIsTableView(false) }}><CgCardSpades /> </button>
+        </div>
+      </div>
+      <div className="row">
+        {isTableView ? <ProductsTable onDeleteFn={_deleteCard} products={currentProducts} /> : <ProductsCards onDeleteFn={_deleteCard} products={currentProducts} />}
+      </div>
     </div>
   )
 }
@@ -238,7 +264,8 @@ function App() {
 
   return (
     <div className="App">
-      {/* <MainSuperHeader /> */}
+      <SuperHeader headerText='Mini Super' textSizeUnitChange={unit} />
+      <ProductsPage />
       <div className=''>
         Unit <input onChange={(e) => {
           setUnit(parseInt(e.target.value));
@@ -248,7 +275,6 @@ function App() {
       <SuperHeader headerText='Products list' textSizeUnitChange={unit} />
       <h2> Hi i am the manager: </h2>
       <ImageComponent imageUrl='https://helios-i.mashable.com/imagery/articles/01eIvreZ9sXEnn1jUU6nyQM/images-93.fit_lim.size_2000x.v1628282411.jpg' height={400} width={500} />
-      <ProductsPage />
     </div >
   );
 }
