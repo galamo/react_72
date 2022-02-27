@@ -88,3 +88,10 @@ Create A Product Component
 1. When search text is longer than 5 characters - pop up a alert - too long!
 2. useEffect
 3. dep = searchValue
+
+
+# EX 2 useeffect
+- api: https://newsapi.org/v2/top-headlines?country=il&apiKey=c4c1e614e6017
+- create 3 buttons us, il ,uk
+- show a preffered key from each article
+
