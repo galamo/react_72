@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react"
 import axios from "axios"
 import { Search } from "../../ui-components/search"
 const NEWS_API_URL = `https://newsapi.org/v2/everything`
-const API_KEY = `0da596e18e3f4c5e81dc4c1e614e6017`
+const TOP_HEADLINES_API_URL = `https://newsapi.org/v2/top-headlines`
+const API_KEY = `c54fe7478b364e2bab987a66db783ce1`
 // const ?q=ukraine&apiKey=
 
 
@@ -12,6 +13,7 @@ export function NewsPage() {
     const [isLoading, setIsLoading] = useState(false)
     const [totalResults, setTotalResults] = useState(0)
     const [search, setSearch] = useState("")
+    const [country, setCountry] = useState("")
     useEffect(() => {
         async function getNews() {
             setIsLoading(true)
@@ -23,19 +25,35 @@ export function NewsPage() {
         if (typeof search === 'string' && search.length > 3) getNews()
     }, [search])
 
+    useEffect(() => {
+        async function getTopHeadlines() {
+            setIsLoading(true)
+            const result = await axios.get(`${TOP_HEADLINES_API_URL}?country=${country}&apiKey=${API_KEY}`)
+            const { data } = result
+            const { totalResults, articles } = data
+            setGroupState(articles, totalResults)
+        }
+        if (country) getTopHeadlines()
+    }, [country])
+
     function setGroupState(articles: Array<any>, totalResults: number) {
         setArticles(articles)
         setTotalResults(totalResults)
         setIsLoading(false)
     }
 
-    const showSearchHeader = !!search.length
+    const showSearchHeader = !!search.length || !!country
     return <div className="container">
         <div className="row">
             <h1> News Page </h1>
             {showSearchHeader && <h3> Total results for {search} is: {!isLoading ? totalResults : <Loader />} </h3>}
             <div className="col-lg-4 offset-4">
                 <Search onInputChange={(value: string) => { setSearch(value) }} />
+            </div>
+            <div className="col-lg-4 offset-4">
+                <button className="btn btn-primary" onClick={() => setCountry("us")}>USA</button>
+                <button className="btn btn-primary" onClick={() => setCountry("il")}>Israel</button>
+                <button className="btn btn-primary" onClick={() => setCountry("fr")}>France</button>
             </div>
         </div>
     </div>
