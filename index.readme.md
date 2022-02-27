@@ -85,3 +85,6 @@ Create A Product Component
 2. deps
 
 # EX useEffect
+1. When search text is longer than 5 characters - pop up a alert - too long!
+2. useEffect
+3. dep = searchValue
