@@ -95,3 +95,19 @@ Create A Product Component
 - create 3 buttons us, il ,uk
 - show a preffered key from each article
 
+# Homework
+1. Create A Search Form by:
+- q - query search string
+- from - date in specific format
+- to - date in specific format 
+- sort by - DDL 
+GET https://newsapi.org/v2/everything?q=apple&from=2022-02-26&to=2022-02-26&sortBy=popularity&apiKey=API_KEY
+
+
+
+
+
+
+#### NOT RELEVANT
+Pagination
+Router
