@@ -5,6 +5,10 @@ import { FcGrid } from "react-icons/fc"
 import { CgCardSpades } from "react-icons/cg"
 import { AiFillDelete } from "react-icons/ai"
 import css from "./app.module.css"
+import { NewsPage } from './components/pages/news';
+import { Search } from './components/ui-components/search';
+
+
 
 
 const dateTime = new Date().toLocaleDateString()
@@ -110,26 +114,13 @@ function SearchBy(props: { onSearchByChanage: Function }) {
   )
 }
 
-function Search(props: { onInputChange: Function }) {
-  return (
-    <input onChange={({ target }) => {
-      // set your state to contain the target.value
-      const { value } = target;
-      props.onInputChange(value)
-    }}
-      type="text"
-      className="form-control"
-      placeholder="search"
-      aria-label="Username"
-      aria-describedby="basic-addon1" />
-  )
-}
 
-function ViewButtons(props: { setIsTableView: Function }) {
-  const { setIsTableView } = props
+
+function ViewButtons(props: { setIsTableView: Function, disable: boolean }) {
+  const { setIsTableView, disable = false } = props
   return <>
-    <button className='btn btn-success' onClick={() => { setIsTableView(true) }}><FcGrid /> </button>
-    <button className='btn btn-success' onClick={() => { setIsTableView(false) }}><CgCardSpades /> </button>
+    <button disabled={disable} className='btn btn-success' onClick={() => { setIsTableView(true) }}><FcGrid /> </button>
+    <button disabled={disable} className='btn btn-success' onClick={() => { setIsTableView(false) }}><CgCardSpades /> </button>
   </>
 }
 
@@ -144,7 +135,18 @@ function ProductsPage() {
 
 
   const [searchValue, setSearchValue] = useState("")
-  const [searchBy, setSearchBy] = useState("")
+  const [searchBy, setSearchBy] = useState("name")
+  const errorState: string = ""
+  const [error, setError] = useState(errorState)
+
+  useEffect(() => {
+    if (searchValue.length > 5) {
+      setError("search value is too long")
+    } else {
+      setError("")
+    }
+  }, [searchValue])
+
   function _deleteCard(id: string) {
     if (!id) return;
     const newProducts = productsGlobal.filter(p => p.id !== id);
@@ -153,8 +155,9 @@ function ProductsPage() {
 
   function _filterProducts(s: string, searchBy: string, products: Array<any>) {
     if (!Array.isArray(products)) return products;
-    if (!s) return products;
+    if (!s || !searchBy) return products;
     const sToLower = s.toLowerCase()
+    console.log(sToLower, searchBy)
     return products.filter(product => product[searchBy].toLowerCase().includes(sToLower))
   }
 
@@ -166,6 +169,7 @@ function ProductsPage() {
           <div className="row">
             <div className='col-3'>
               <Search onInputChange={setSearchValue} />
+              <span style={{ color: "red" }}>{error}</span>
             </div>
             <div className='col-3'>
               <SearchBy onSearchByChanage={setSearchBy} />
@@ -173,7 +177,7 @@ function ProductsPage() {
           </div>
         </div>
         <div className={`col-1 align-self-end ${css.viewButtons}`} >
-          <ViewButtons setIsTableView={setIsTableView} />
+          <ViewButtons disable={!!error} setIsTableView={setIsTableView} />
         </div>
       </div>
       <div className="row">
@@ -191,7 +195,7 @@ function ProductsPage() {
         {carts.map(cart => cart.id)}
         {carts.map(cart => cart.totalPrice)}
       </div>
-    </div>
+    </div >
   )
 
   function TableView() {
@@ -369,8 +373,9 @@ function App() {
 
   return (
     <div className="App">
-      <SuperHeader headerText='Mini Super' textSizeUnitChange={unit} />
-      <ProductsPage />
+      <NewsPage />
+      {false && <SuperHeader headerText='Mini Super' textSizeUnitChange={unit} />}
+      {false && <ProductsPage />}
       {false && <DontShowMe />}
     </div >
   );
