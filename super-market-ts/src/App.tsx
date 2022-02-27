@@ -182,9 +182,7 @@ function ProductsPage() {
           setProductsGlobal([...productsGlobal, productObject])
         }} />
       </div>
-      <div className="row" style={{ background: "red" }}>
-        <TableView />
-      </div>
+
       {isTableView ? <ProductsTable onDeleteFn={_deleteCard} products={productsGlobal} /> : <ProductsCards onDeleteFn={_deleteCard} products={productsGlobal} />}
       <div style={{ marginBottom: "200px" }}>
         <button onClick={() => {
