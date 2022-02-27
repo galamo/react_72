@@ -57,3 +57,17 @@ Create A Product Component
 1. Create Products Table View
 2. Support delete row from product view
 3. Advanced: Create Product Search Input
+
+
+
+# Lifecycle 
+1. Mounted
+2. Updated
+3. Unmounted
+
+
+# useEffect
+1. callback
+2. deps
+
+# EX useEffect

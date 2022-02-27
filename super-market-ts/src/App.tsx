@@ -1,9 +1,10 @@
-import React, { Component, ReactElement, useState } from 'react';
+import React, { Component, ReactElement, useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { FcGrid } from "react-icons/fc"
 import { CgCardSpades } from "react-icons/cg"
 import { AiFillDelete } from "react-icons/ai"
+import { createServer } from 'http';
 
 
 
@@ -60,10 +61,20 @@ const data = [{
   "image": "http://placehold.it/300x300/999/CCC"
 }]
 
+interface ICart {
+  totalPrice: number,
+  id: string
+}
+
 function ProductsPage() {
   const initialState: boolean = false
   const [isTableView, setIsTableView] = useState(initialState)
   const [productsGlobal, setProductsGlobal] = useState(data)
+  const cartState: Array<ICart> = []
+  const [carts, setCart] = useState(cartState)
+
+
+
 
   function _deleteCard(id: string) {
     if (!id) return;
@@ -78,12 +89,25 @@ function ProductsPage() {
         <button className='btn btn-success' onClick={() => { setIsTableView(false) }}><CgCardSpades /> </button>
       </div>
       {isTableView ? <ProductsTable onDeleteFn={_deleteCard} products={productsGlobal} /> : <ProductsCards onDeleteFn={_deleteCard} products={productsGlobal} />}
+      <div style={{ marginBottom: "200px" }}>
+        <button onClick={() => {
+          setCart([...carts, { id: "CartId_1234", totalPrice: 5200 }])
+        }}>addToCart</button>
+        {carts.map(cart => cart.id)}
+        {carts.map(cart => cart.totalPrice)}
+      </div>
     </div>
   )
 }
 
 function ProductsTable(props: { products: Array<any>, onDeleteFn: Function }) {
   // return <img src="https://www.patternfly.org/v3/pattern-library/content-views/table-view/img/table-overview.png" alt="" />
+  console.log("ProductsTable Component Mounted Rendered")
+  useEffect(() => {
+    console.log("ProductsTable Component Mounted")
+  }, [])
+
+
   return <div>
     <table className="table">
       <thead>
@@ -107,11 +131,19 @@ function ProductsTable(props: { products: Array<any>, onDeleteFn: Function }) {
   </div >
 }
 function ProductsCards(props: { products: Array<any>, onDeleteFn: Function }) {
+  const [counter, setState] = useState(0)
+  console.log("ProductsCards Component Rendered")
+  useEffect(() => {
+    console.log("ProductsCards Component Updated")
+  }, [counter, props.products.length])
+
   if (!Array.isArray(props.products)) return null;
   return (<div>
+    {counter}
+    <button onClick={() => { setState(counter + 1) }}>change counter</button>
     {props.products.map((product) => {
       const { image, name, detail, price, id } = product
-      return <Product onDeleteFn={(id: string) => { props.onDeleteFn(id) }} key={id} id={id} name={name}
+      return <Product onDeleteFn={(id: string) => { props.onDeleteFn(id); setState(counter + 1) }} key={id} id={id} name={name}
         price={parseInt(price)}
         imageUrl={image}
         category={detail} />
