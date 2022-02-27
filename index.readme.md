@@ -96,11 +96,11 @@ Create A Product Component
 - show a preffered key from each article
 
 # Homework
-1. Create A Search Form by:
+1. Create A Search Form by: https://newsapi.org/docs/endpoints/everything
 - q - query search string
 - from - date in specific format
 - to - date in specific format 
-- sort by - DDL 
+- sort by - DDL  relevancy, popularity, publishedAt
 GET https://newsapi.org/v2/everything?q=apple&from=2022-02-26&to=2022-02-26&sortBy=popularity&apiKey=API_KEY
 
 
