@@ -1,0 +1,13 @@
+.viewButtons{
+    padding-right: 0px !important;
+    text-align: right;
+}
+
+.searchContainer{
+    padding: 0px !important;
+
+}
+
+.selectContainer{
+    height: 100%;
+}

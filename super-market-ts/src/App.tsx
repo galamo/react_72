@@ -4,8 +4,7 @@ import './App.css';
 import { FcGrid } from "react-icons/fc"
 import { CgCardSpades } from "react-icons/cg"
 import { AiFillDelete } from "react-icons/ai"
-import { createServer } from 'http';
-
+import css from "./app.module.css"
 
 
 const dateTime = new Date().toLocaleDateString()
@@ -65,6 +64,74 @@ interface ICart {
   totalPrice: number,
   id: string
 }
+function AddProduct(props: { addProduct: Function }) {
+  const [name, setName] = useState("")
+  const [category, setCategory] = useState("")
+  const [price, setPrice] = useState("")
+
+  return <div className='mb-4'>
+    <div className="input-group input-group-sm mb-3">
+      <div className="input-group-prepend">
+        <span className="input-group-text" id="inputGroup-sizing-sm">Name</span>
+      </div>
+      <input type="text" onChange={(e) => { setName(e.target.value) }} className="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" />
+    </div>
+
+    <div className="input-group mb-3">
+      <div className="input-group-prepend">
+        <span className="input-group-text" id="inputGroup-sizing-sm">Category</span>
+      </div>
+      <input type="text" onChange={(e) => { setCategory(e.target.value) }} className="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" />
+    </div>
+
+    <div className="input-group input-group-sm">
+      <div className="input-group-prepend">
+        <span className="input-group-text" id="inputGroup-sizing-sm">Price</span>
+      </div>
+      <input type="text" onChange={(e) => { setPrice(e.target.value) }} className="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" />
+    </div>
+    <div className="input-group input-group-sm">
+      <button className='btn btn-success' onClick={() => {
+        props.addProduct({ name, price, detail: category, id: `${name}_${Math.ceil(Math.random() * 1000)}` })
+      }} > add</button>
+    </div>
+
+  </div>
+}
+
+function SearchBy(props: { onSearchByChanage: Function }) {
+  const { onSearchByChanage } = props;
+  return (
+    <select onChange={(e) => { onSearchByChanage(e.target.value) }} className={css.selectContainer} id="inputGroupSelect02">
+      <option value="name" selected>Name</option>
+      <option value="price">Price</option>
+      <option value="detail">Category</option>
+    </select>
+  )
+}
+
+function Search(props: { onInputChange: Function }) {
+  return (
+    <input onChange={({ target }) => {
+      // set your state to contain the target.value
+      const { value } = target;
+      props.onInputChange(value)
+    }}
+      type="text"
+      className="form-control"
+      placeholder="search"
+      aria-label="Username"
+      aria-describedby="basic-addon1" />
+  )
+}
+
+function ViewButtons(props: { setIsTableView: Function }) {
+  const { setIsTableView } = props
+  return <>
+    <button className='btn btn-success' onClick={() => { setIsTableView(true) }}><FcGrid /> </button>
+    <button className='btn btn-success' onClick={() => { setIsTableView(false) }}><CgCardSpades /> </button>
+  </>
+}
 
 function ProductsPage() {
   const initialState: boolean = false
@@ -76,17 +143,47 @@ function ProductsPage() {
 
 
 
+  const [searchValue, setSearchValue] = useState("")
+  const [searchBy, setSearchBy] = useState("")
   function _deleteCard(id: string) {
     if (!id) return;
     const newProducts = productsGlobal.filter(p => p.id !== id);
     setProductsGlobal([...newProducts])
   }
 
+  function _filterProducts(s: string, searchBy: string, products: Array<any>) {
+    if (!Array.isArray(products)) return products;
+    if (!s) return products;
+    const sToLower = s.toLowerCase()
+    return products.filter(product => product[searchBy].toLowerCase().includes(sToLower))
+  }
+
+  const currentProducts = _filterProducts(searchValue, searchBy, productsGlobal) || productsGlobal
   return (
-    <div key={111213} className='container'>
-      <div style={{ textAlign: "left" }}>
-        <button className='btn btn-success' onClick={() => { setIsTableView(true) }}><FcGrid /> </button>
-        <button className='btn btn-success' onClick={() => { setIsTableView(false) }}><CgCardSpades /> </button>
+    <div className='container'>
+      <div className="row mb-4">
+        <div className={`col align-self-start ${css.searchContainer}`} >
+          <div className="row">
+            <div className='col-3'>
+              <Search onInputChange={setSearchValue} />
+            </div>
+            <div className='col-3'>
+              <SearchBy onSearchByChanage={setSearchBy} />
+            </div>
+          </div>
+        </div>
+        <div className={`col-1 align-self-end ${css.viewButtons}`} >
+          <ViewButtons setIsTableView={setIsTableView} />
+        </div>
+      </div>
+      <div className="row">
+        <AddProduct addProduct={(productObject: any) => {
+          console.log(productObject)
+          setProductsGlobal([...productsGlobal, productObject])
+        }} />
+      </div>
+      <div className="row" style={{ background: "red" }}>
+        <TableView />
       </div>
       {isTableView ? <ProductsTable onDeleteFn={_deleteCard} products={productsGlobal} /> : <ProductsCards onDeleteFn={_deleteCard} products={productsGlobal} />}
       <div style={{ marginBottom: "200px" }}>
@@ -98,6 +195,10 @@ function ProductsPage() {
       </div>
     </div>
   )
+
+  function TableView() {
+    return isTableView ? <ProductsTable onDeleteFn={_deleteCard} products={currentProducts} /> : <ProductsCards onDeleteFn={_deleteCard} products={currentProducts} />
+  }
 }
 
 function ProductsTable(props: { products: Array<any>, onDeleteFn: Function }) {
@@ -270,19 +371,27 @@ function App() {
 
   return (
     <div className="App">
-      {/* <MainSuperHeader /> */}
-      <div className=''>
-        Unit <input onChange={(e) => {
-          setUnit(parseInt(e.target.value));
-        }} style={{ width: "100px", display: "inline-block" }} type="number" className='form-control' />
-      </div>
       <SuperHeader headerText='Mini Super' textSizeUnitChange={unit} />
-      <SuperHeader headerText='Products list' textSizeUnitChange={unit} />
-      <h2> Hi i am the manager: </h2>
-      <ImageComponent imageUrl='https://helios-i.mashable.com/imagery/articles/01eIvreZ9sXEnn1jUU6nyQM/images-93.fit_lim.size_2000x.v1628282411.jpg' height={400} width={500} />
       <ProductsPage />
+      {false && <DontShowMe />}
     </div >
   );
+
+  function DontShowMe() {
+    return (
+      <div>
+        <div className=''>
+          Unit <input onChange={(e) => {
+            setUnit(parseInt(e.target.value));
+          }} style={{ width: "100px", display: "inline-block" }} type="number" className='form-control' />
+        </div>
+        <SuperHeader headerText='Mini Super' textSizeUnitChange={unit} />
+        <SuperHeader headerText='Products list' textSizeUnitChange={unit} />
+        <h2> Hi i am the manager: </h2>
+        <ImageComponent imageUrl='https://helios-i.mashable.com/imagery/articles/01eIvreZ9sXEnn1jUU6nyQM/images-93.fit_lim.size_2000x.v1628282411.jpg' height={400} width={500} />
+      </div>
+    )
+  }
 }
 
 export default App;
