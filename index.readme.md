@@ -15,7 +15,7 @@
 
 #### Create project with Typescript
 `npx create-react-app <AppName> --template typescript`
-
+npx create-react-app pako --template typescript
 
 ### Using Libs/files in react
 1. Install your lib
@@ -103,6 +103,12 @@ Create A Product Component
 - sort by - DDL  relevancy, popularity, publishedAt
 GET https://newsapi.org/v2/everything?q=apple&from=2022-02-26&to=2022-02-26&sortBy=popularity&apiKey=API_KEY
 
+
+# Date Input
+1. native input
+2. date picker from react bootstrap
+3. range picker from react bootstrap / material
+4. Take the relevant dates with the requested FORMAT - YYYY-MM-DD
 
 
 

@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react"
 import axios from "axios"
 import { Search } from "../../ui-components/search"
+
+import moment from "moment"
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { getApiDateFormat } from "./utils";
+
+const DATE_FORMAT = "yyyy-MM-dd"
 const NEWS_API_URL = `https://newsapi.org/v2/everything`
 const TOP_HEADLINES_API_URL = `https://newsapi.org/v2/top-headlines`
 const API_KEY = `c54fe7478b364e2bab987a66db783ce1`
@@ -14,6 +21,9 @@ export function NewsPage() {
     const [totalResults, setTotalResults] = useState(0)
     const [search, setSearch] = useState("")
     const [country, setCountry] = useState("")
+    const before1Month = moment().subtract(1, "month").toDate()
+    const [fromDate, setFromDate] = useState(before1Month)
+    const [toDate, setToDate] = useState(new Date())
     useEffect(() => {
         async function getNews() {
             setIsLoading(true)
@@ -36,6 +46,17 @@ export function NewsPage() {
         if (country) getTopHeadlines()
     }, [country])
 
+    async function searchNews() {
+        if (!search) return;
+        setIsLoading(true)
+        const from = getApiDateFormat(fromDate)
+        const to = getApiDateFormat(toDate)
+        const result = await axios.get(`${NEWS_API_URL}?q=${search}&from=${from}&to=${to}&sortBy=popularity&apiKey=${API_KEY}`)
+        const { data } = result
+        const { totalResults, articles } = data
+        setGroupState(articles, totalResults)
+    }
+
     function setGroupState(articles: Array<any>, totalResults: number) {
         setArticles(articles)
         setTotalResults(totalResults)
@@ -54,6 +75,15 @@ export function NewsPage() {
                 <button className="btn btn-primary" onClick={() => setCountry("us")}>USA</button>
                 <button className="btn btn-primary" onClick={() => setCountry("il")}>Israel</button>
                 <button className="btn btn-primary" onClick={() => setCountry("fr")}>France</button>
+            </div>
+            <div className="col-lg-4 offset-4 mt-5">
+                <span>From</span> <DatePicker showTimeInput dateFormat={DATE_FORMAT}
+                    maxDate={toDate} selected={fromDate} onChange={(date: Date) => { setFromDate(date) }} />
+                <span>to</span> <DatePicker showTimeInput dateFormat={DATE_FORMAT}
+                    selected={toDate} onChange={(date: Date) => { setToDate(date) }} />
+            </div>
+            <div className="col-lg-4 offset-4 mt-5">
+                <button className="btn btn-primary" onClick={searchNews}>Search</button>
             </div>
         </div>
     </div>
