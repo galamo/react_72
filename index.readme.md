@@ -113,7 +113,7 @@ GET https://newsapi.org/v2/everything?q=apple&from=2022-02-26&to=2022-02-26&sort
 
 
 
-
-#### NOT RELEVANT
-Pagination
-Router
+# React router Dom
+ - https://v5.reactrouter.com/web/guides/quick-start
+ - `npm i react-router-dom --save @types/react-router-dom --save-dev`
+ - Add your own Route into the application
