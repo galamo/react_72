@@ -117,3 +117,16 @@ GET https://newsapi.org/v2/everything?q=apple&from=2022-02-26&to=2022-02-26&sort
  - https://v5.reactrouter.com/web/guides/quick-start
  - `npm i react-router-dom --save @types/react-router-dom --save-dev`
  - Add your own Route into the application
+
+
+ # Homework 2-3-2022
+ 1. Create new Route - Top headlines and Bring Top headlines sources with the following api
+ - GET https://newsapi.org/v2/top-headlines/sources?apiKey=API_KEY
+ 2. Show the sources with all the patermetes ( country )
+ 3. country should be clickable link 
+ 4. country page will use the hook: useParams to fetch the country alpha 2 code
+ 5. use useEffect to fetch infromation about the relevant country by using - Countries Api 
+ - https://restcountries.com/
+
+
+
