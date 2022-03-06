@@ -7,11 +7,11 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { getApiDateFormat } from "./utils";
 import { Link } from "react-router-dom";
+import { API_KEY, TOP_HEADLINES_API_URL } from "../../../settings";
 
 const DATE_FORMAT = "yyyy-MM-dd"
 const NEWS_API_URL = `https://newsapi.org/v2/everything`
-const TOP_HEADLINES_API_URL = `https://newsapi.org/v2/top-headlines`
-const API_KEY = `c54fe7478b364e2bab987a66db783ce1`
+
 // const ?q=ukraine&apiKey=
 
 
