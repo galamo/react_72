@@ -130,3 +130,7 @@ GET https://newsapi.org/v2/everything?q=apple&from=2022-02-26&to=2022-02-26&sort
 
 
 
+# Homework 6-3-2022
+1. Navigate from Topheadlines to country component - programatically! no Link component
+2. When user arrived to NotFound page, Naviage top Tope headlines automatically after 5 sec
+3. Convert NewsImage to Class component ( DONT USE IT - Only practice)

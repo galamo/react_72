@@ -9,6 +9,7 @@ import { CountryPage } from './components/pages/country';
 import { NewsPage } from './components/pages/news';
 import { NewsImage } from './components/pages/news-image';
 import { TopHeadlinesPage } from './components/pages/top-headlines';
+import { NotFound } from './components/pages/notFound';
 
 interface IRoute {
   path: string
@@ -22,7 +23,11 @@ const routes: Array<IRoute> = [
   { path: "/", element: <NewsPage />, linkText: "News" },
   { path: "/top-headlines", element: <TopHeadlinesPage />, linkText: "Top Headlines " },
   { path: "/country/:country", element: <CountryPage />, linkText: "", invisible: true },
-  { path: "/news-image/:image", element: <NewsImage />, linkText: "", invisible: true }
+  { path: "/news-image/:image", element: <NewsImage />, linkText: "", invisible: true },
+  { path: "*", element: <NotFound />, linkText: "", invisible: true },
+
+
+
 ]
 
 function App() {
