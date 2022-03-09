@@ -152,3 +152,9 @@ GET https://newsapi.org/v2/everything?q=apple&from=2022-02-26&to=2022-02-26&sort
  1. Add theme functionality to your application 
  2. in the root - app component add dark/light buttons
  3. clicking on dark button will change the badge color to black ( page - topHeadlines)
+
+
+ # HomeWork 
+ 1. Ex useContext from above.
+ 2. Support changing the userName from the decendant component (same like implemented at Father)
+ 

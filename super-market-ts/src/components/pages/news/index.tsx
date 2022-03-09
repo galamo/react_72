@@ -10,7 +10,7 @@ import { getApiDateFormat } from "./utils";
 const DATE_FORMAT = "yyyy-MM-dd"
 const NEWS_API_URL = `https://newsapi.org/v2/everything`
 const TOP_HEADLINES_API_URL = `https://newsapi.org/v2/top-headlines`
-const API_KEY = `9ff74ba0cf114748919e247f733962b3`
+const API_KEY = `g`
 // const ?q=ukraine&apiKey=
 
 
