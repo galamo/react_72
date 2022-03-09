@@ -145,3 +145,10 @@ GET https://newsapi.org/v2/everything?q=apple&from=2022-02-26&to=2022-02-26&sort
  5. customHook 
  6. class component - lifecycle 
  7. class - componentDidmount, didUpdate, didCatch, 
+
+
+
+ # Ex useContext 
+ 1. Add theme functionality to your application 
+ 2. in the root - app component add dark/light buttons
+ 3. clicking on dark button will change the badge color to black ( page - topHeadlines)

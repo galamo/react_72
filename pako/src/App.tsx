@@ -10,6 +10,8 @@ import { NewsPage } from './components/pages/news';
 import { NewsImage } from './components/pages/news-image';
 import { TopHeadlinesPage } from './components/pages/top-headlines';
 import { NotFound } from './components/pages/notFound';
+import { ParentProblem } from './components/pages/__Global_State_Problem/problem';
+import { ParentSolution } from './components/pages/__Global_State_Problem/solution';
 
 interface IRoute {
   path: string
@@ -24,6 +26,8 @@ const routes: Array<IRoute> = [
   { path: "/top-headlines", element: <TopHeadlinesPage />, linkText: "Top Headlines " },
   { path: "/country/:country", element: <CountryPage />, linkText: "", invisible: true },
   { path: "/news-image/:image", element: <NewsImage />, linkText: "", invisible: true },
+  { path: "/problem", element: <ParentProblem />, linkText: "problem", invisible: false },
+  { path: "/solution", element: <ParentSolution />, linkText: "solution", invisible: false },
   { path: "*", element: <NotFound />, linkText: "", invisible: true },
 
 

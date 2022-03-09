@@ -27,16 +27,21 @@ export function NewsPage() {
     const [toDate, setToDate] = useState(new Date())
     const [currentPage, setCurrentPage] = useState(1)
     const PAGE_SIZE = 10
+    async function getNews() {
+        setIsLoading(true)
+        const result = await axios.get(`${NEWS_API_URL}?q=${search}&pageSize=${PAGE_SIZE}&page=${currentPage}&apiKey=${API_KEY}`)
+        const { data } = result
+        const { totalResults, articles } = data
+        setGroupState(articles, totalResults)
+    }
     useEffect(() => {
-        async function getNews() {
-            setIsLoading(true)
-            const result = await axios.get(`${NEWS_API_URL}?q=${search}&pageSize=${PAGE_SIZE}&page=${currentPage}&apiKey=${API_KEY}`)
-            const { data } = result
-            const { totalResults, articles } = data
-            setGroupState(articles, totalResults)
-        }
+        setCurrentPage(1)
+        setArticles([])
         if (typeof search === 'string' && search.length > 3) getNews()
     }, [search])
+    useEffect(() => {
+        getNews()
+    }, [currentPage])
 
     useEffect(() => {
         async function getTopHeadlines() {
@@ -62,8 +67,8 @@ export function NewsPage() {
         setGroupState(articles, totalResults)
     }
 
-    function setGroupState(articles: Array<any>, totalResults: number) {
-        setArticles(articles)
+    function setGroupState(newArticles: Array<any>, totalResults: number) {
+        setArticles([...articles, ...newArticles]) //[1,2,3,4,5,6,7]
         setTotalResults(totalResults)
         setIsLoading(false)
     }
