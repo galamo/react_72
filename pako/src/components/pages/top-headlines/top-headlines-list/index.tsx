@@ -93,3 +93,45 @@ export function TopHeadlinesList(props: ITopHeadlinesList) {
 //         </div >)
 //     }
 // }
+
+
+// Simulate Lifecycle Functions
+
+//  componentDidMount() {
+//         console.log("execute ajax request!!! ")
+//     }
+
+// useEffect(() => {
+    // console.log("execute ajax request!!! ")
+// }, [])
+
+
+//================//================//================//================//================//================
+//  componentWillUnmount() {
+//         console.log("Unmount!!! ")
+//     }
+
+// useEffect(() => {
+//   return () => {
+//         console.log("Unmount!!! ")
+//   }
+// }, [])
+
+//================//================//================//================//================
+
+//  render(){}
+// useEffect(() => {
+//   return () => {
+//         console.log("Unmount!!! ")
+//   }
+// })
+
+//================//================//================//================//================
+// componentDidUpdate() {
+//         console.log("componentDidUpdate!!! ")
+//     }
+// useEffect(() => {
+//   return () => {
+//         console.log("Unmount!!! ")
+//   }
+// }, [updateParam])

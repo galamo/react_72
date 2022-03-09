@@ -25,10 +25,12 @@ export function NewsPage() {
     const before1Month = moment().subtract(1, "month").toDate()
     const [fromDate, setFromDate] = useState(before1Month)
     const [toDate, setToDate] = useState(new Date())
+    const [currentPage, setCurrentPage] = useState(1)
+    const PAGE_SIZE = 10
     useEffect(() => {
         async function getNews() {
             setIsLoading(true)
-            const result = await axios.get(`${NEWS_API_URL}?q=${search}&apiKey=${API_KEY}`)
+            const result = await axios.get(`${NEWS_API_URL}?q=${search}&pageSize=${PAGE_SIZE}&page=${currentPage}&apiKey=${API_KEY}`)
             const { data } = result
             const { totalResults, articles } = data
             setGroupState(articles, totalResults)
@@ -46,6 +48,8 @@ export function NewsPage() {
         }
         if (country) getTopHeadlines()
     }, [country])
+
+
 
     async function searchNews() {
         if (!search) return;
@@ -83,8 +87,13 @@ export function NewsPage() {
                 <span>to</span> <DatePicker showTimeInput dateFormat={DATE_FORMAT}
                     selected={toDate} onChange={(date: Date) => { setToDate(date) }} />
             </div>
-            <div className="col-lg-4 offset-4 mt-5">
-                <button className="btn btn-primary" onClick={searchNews}>Search</button>
+            <div className="row">
+                <div className="col-lg-1  mt-5">
+                    <button className="btn btn-primary" onClick={searchNews}>Search</button>
+                </div>
+                <div className="col-lg-2  mt-5">
+                    <button className="btn btn-primary" onClick={() => { setCurrentPage(currentPage + 1) }}>Load more ({currentPage})</button>
+                </div>
             </div>
             <div>
                 {articles?.map((article: any) =>

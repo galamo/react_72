@@ -134,3 +134,14 @@ GET https://newsapi.org/v2/everything?q=apple&from=2022-02-26&to=2022-02-26&sort
 1. Navigate from Topheadlines to country component - programatically! no Link component
 2. When user arrived to NotFound page, Naviage top Tope headlines automatically after 5 sec
 3. Convert NewsImage to Class component ( DONT USE IT - Only practice)
+
+
+# React Current State
+1. function components
+2. state
+3. props
+4. Hooks - core( useState, useEffect - generate lifecycle: mount, update, unmount
+ , useRef )
+ 5. customHook 
+ 6. class component - lifecycle 
+ 7. class - componentDidmount, didUpdate, didCatch, 
