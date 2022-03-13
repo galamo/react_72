@@ -13,6 +13,7 @@ import { NotFound } from './components/pages/notFound';
 import { ParentProblem } from './components/pages/__Global_State_Problem/problem';
 import { ParentSolution } from './components/pages/__Global_State_Problem/solution';
 import { SettingsPage } from './components/pages/settings';
+import { TZComponent } from './components/ui-components/timezone';
 
 interface IRoute {
   path: string
@@ -35,17 +36,21 @@ const routes: Array<IRoute> = [
 
 interface IGlobalState {
   userProfile: IUser,
+  timezone: string,
   dispatch?: Function
 }
 interface IUser {
   userName: string
 }
-const initialState: IGlobalState = { userProfile: { userName: "Gal Amouyal" } };
+const initialState: IGlobalState = { userProfile: { userName: "Gal Amouyal" }, timezone: "local" };
 export const GlobalState = createContext<IGlobalState>(initialState)
 
 export const ACTIONS = {
   USER_PROFILE: {
     UPDATE_USER: "UPDATE_USER"
+  },
+  TIMEZONE: {
+    SET_TIMEZONE: "SET_TIMEZONE"
   }
 }
 
@@ -55,6 +60,9 @@ const reducer = (state: IGlobalState, action: { type: string, payload?: any }) =
     case ACTIONS.USER_PROFILE.UPDATE_USER: {
       return { ...state, userProfile: { userName: action.payload } }
     }
+    case ACTIONS.TIMEZONE.SET_TIMEZONE: {
+      return { ...state, timezone: action.payload }
+    }
     default:
       return state
   }
@@ -63,14 +71,15 @@ const reducer = (state: IGlobalState, action: { type: string, payload?: any }) =
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState)
-
+  console.log(state, "global state!!!")
   return (
-    <GlobalState.Provider value={{ dispatch, userProfile: state.userProfile }}>
+    <GlobalState.Provider value={{ dispatch, userProfile: state.userProfile, timezone: state.timezone }}>
       <Router>
         <div className="App" style={{ background: "rgba(255,151,120,0.5)" }}>
           {routes.filter((route: IRoute) => !route.invisible).map((route: IRoute) =>
             <span className={css.route}><Link to={route.path}>{route.linkText}</Link></span>)}
           <h2> {state?.userProfile?.userName} </h2>
+          <h2> <TZComponent timezone={state.timezone} datetime={new Date().toString()} /> </h2>
         </div>
 
         <Routes>

@@ -72,11 +72,24 @@ export function NewsPage() {
         setTotalResults(totalResults)
         setIsLoading(false)
     }
+    // Trasnlation feature could be written in another file
+    const T = {
+        en: {
+            bestNewsEver: {
+                value: "Best news ever"
+            }
+        }, ru: {
+            bestNewsEver: {
+                value: "Лучшие новости"
+            }
+        }
+    }
+    const currentLanguate = "en"
     console.log(articles)
     const showSearchHeader = !!search.length || !!country
     return <div className="container">
         <div className="row">
-            <h1> News Page </h1>
+            <h1> {T[currentLanguate].bestNewsEver.value}  {new Date().toString()} </h1>
             {showSearchHeader && <h3> Total results for {search} is: {!isLoading ? totalResults : <Loader />} </h3>}
             <div className="col-lg-4 offset-4">
                 <Search onInputChange={(value: string) => { setSearch(value) }} />
