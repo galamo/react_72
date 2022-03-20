@@ -1,6 +1,7 @@
 
 import { Button, Modal } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
+import { ACTIONS } from '../../../store/actions';
 
 
 export default function AppModal() {
@@ -13,7 +14,7 @@ export default function AppModal() {
         </Modal.Header>
         <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
         <Modal.Footer>
-            <Button variant="secondary" onClick={() => { dispatch() }}>
+            <Button variant="secondary" onClick={() => { dispatch({ type: ACTIONS.MODAL_ERROR.CLOSE_MODAL }) }}>
                 Close
             </Button>
         </Modal.Footer>
