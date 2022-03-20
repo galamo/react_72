@@ -76,7 +76,7 @@ function App() {
         <div className="App" style={{ background: "rgba(255,151,120,0.5)" }}>
           {routes.filter((route: IRoute) => !route.invisible).map((route: IRoute) =>
             <span className={css.route}><Link to={route.path}>{route.linkText}</Link></span>)}
-          <h2> {state?.userProfile?.userName} </h2>
+          <h2> {reduxState?.userName} </h2>
           <h2> <TZComponent timezone={reduxState.timezone} datetime={new Date().toString()} /> </h2>
         </div>
 
