@@ -17,6 +17,8 @@ import { TZComponent } from './components/ui-components/timezone';
 import { Provider, useSelector } from "react-redux"
 import { store } from './store';
 import { ACTIONS } from './store/actions';
+import AppModal from './components/pages/appModal';
+
 
 interface IRoute {
   path: string
@@ -70,7 +72,6 @@ function App() {
   const reduxState: any = useSelector(state => state)
   console.log(state, "global state!!!")
   return (
-
     <GlobalState.Provider value={{ dispatch, userProfile: state.userProfile, timezone: state.timezone }}>
       <Router>
         <div className="App" style={{ background: "rgba(255,151,120,0.5)" }}>
@@ -84,6 +85,7 @@ function App() {
           {routes.map((route: IRoute) => <Route path={route.path} element={route.element} />)}
         </Routes>
       </Router>
+      <AppModal />
     </GlobalState.Provider>
   );
 }
