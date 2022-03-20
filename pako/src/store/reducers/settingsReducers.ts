@@ -31,12 +31,14 @@ export const reducer = (state: any = initialState, action: { type: string, paylo
             return { ...state, currentCountry: { ...state.currentCountry, currentCountry: action.payload } }
         }
         case ACTIONS.CURRENT_COUNTRY.GET_CURRENT_COUNTRY_ERROR: {
+            console.log(action.payload)
+            const { message } = action.payload
             return {
                 ...state, currentCountry: {
                     ...state.currentCountry,
                     currentCountry: null
                 },
-                appModalError: { ...state.appModalError, isOpen: true }
+                appModalError: { ...state.appModalError, isOpen: true, header: "Get Country Failed", message }
             }
         }
         case ACTIONS.MODAL_ERROR.CLOSE_MODAL: {

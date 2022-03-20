@@ -158,3 +158,16 @@ GET https://newsapi.org/v2/everything?q=apple&from=2022-02-26&to=2022-02-26&sort
  1. Ex useContext from above.
  2. Support changing the userName from the decendant component (same like implemented at Father)
  
+
+
+# Homework  20-03
+1. use the WithLoading component in another page - news page for example.
+2. move top headlines functionality to redux state management
+3. Advanced! - Split your reducers to multiple reducers in redux
+4. Advanced! - install and use redux tool https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd
+
+
+
+ # React next phase - IGNORE!
+ 1. HOC
+ 2. Split reducers

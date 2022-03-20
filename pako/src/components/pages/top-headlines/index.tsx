@@ -3,6 +3,7 @@ import { API_KEY, TOP_HEADLINES_API_URL } from "../../../settings"
 import { TopHeadlinesList } from "./top-headlines-list"
 import axios from "axios"
 import { useAxios } from "../../../hooks/useAxios"
+import { WithLoading } from "../../ui-components/with-loading"
 
 
 const SOURCES_PATH = "sources"
@@ -12,10 +13,12 @@ export function TopHeadlinesPage() {
     const [data, setData] = useAxios({ url, payload: { key: "sources" } })
 
     return <div className="container">
-        <div className="row">
-            <h1> Top Headlines </h1>
-            <TopHeadlinesList sources={data} />
-        </div>
+        <WithLoading isLoading={!data.length}>
+            <div className="row">
+                <h1> Top Headlines </h1>
+                <TopHeadlinesList sources={data} />
+            </div>
+        </WithLoading>
     </div>
 }
 

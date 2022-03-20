@@ -12,9 +12,8 @@ export async function getCountryAction(countryName: string) {
     try {
         const currentCountry = await getCountryService(countryName)
         dispatch(getCountrySuccess(currentCountry))
-        dispatch(getCountryError("error"))
-    } catch (ex) {
-        dispatch(getCountryError("error"))
+    } catch (ex: any) {
+        dispatch(getCountryError({ message: ex.message }))
     } finally {
         dispatch(setLoader(false))
     }
@@ -26,6 +25,6 @@ function setLoader(value: boolean) {
 function getCountrySuccess(currentCountry: CurrentCountry) {
     return { type: ACTIONS.CURRENT_COUNTRY.GET_CURRENT_COUNTRY_SUCCESS, payload: currentCountry }
 }
-function getCountryError(error: string) {
+function getCountryError(error: { message: string }) {
     return { type: ACTIONS.CURRENT_COUNTRY.GET_CURRENT_COUNTRY_ERROR, payload: error }
 }
