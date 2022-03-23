@@ -8,7 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { getApiDateFormat } from "./utils";
 import { Link } from "react-router-dom";
 import { API_KEY, TOP_HEADLINES_API_URL } from "../../../settings";
-
+import { WithLoading } from "../../ui-components/with-loading"
 const DATE_FORMAT = "yyyy-MM-dd"
 const NEWS_API_URL = `https://newsapi.org/v2/everything`
 
@@ -27,31 +27,32 @@ export function NewsPage() {
     const [toDate, setToDate] = useState(new Date())
     const [currentPage, setCurrentPage] = useState(1)
     const PAGE_SIZE = 10
-    async function getNews() {
-        setIsLoading(true)
-        const result = await axios.get(`${NEWS_API_URL}?q=${search}&pageSize=${PAGE_SIZE}&page=${currentPage}&apiKey=${API_KEY}`)
-        const { data } = result
-        const { totalResults, articles } = data
-        setGroupState(articles, totalResults)
-    }
-    useEffect(() => {
-        setCurrentPage(1)
-        setArticles([])
-        if (typeof search === 'string' && search.length > 3) getNews()
-    }, [search])
-    useEffect(() => {
-        getNews()
-    }, [currentPage])
 
     useEffect(() => {
         async function getTopHeadlines() {
-            setIsLoading(true)
-            const result = await axios.get(`${TOP_HEADLINES_API_URL}?country=${country}&apiKey=${API_KEY}`)
-            const { data } = result
-            const { totalResults, articles } = data
-            setGroupState(articles, totalResults)
+            try {
+                setIsLoading(true)
+                await new Promise((resolve: any) => {
+                    setTimeout(() => {
+                        setArticles([{ title: "test" }])
+                        // simulate api result
+                        resolve()
+                    }, 3000);
+                })
+                // const result = await axios.get(`${TOP_HEADLINES_API_URL}?country=${country}&apiKey=${API_KEY}`)
+                // const { data } = result
+                // const { totalResults, articles } = data
+                // setGroupState(articles, totalResults)
+            } catch {
+                alert("Something went wrong")
+            } finally {
+                setIsLoading(false)
+            }
         }
-        if (country) getTopHeadlines()
+        if (country) {
+            console.log("country: ", country)
+            getTopHeadlines()
+        }
     }, [country])
 
 
@@ -85,7 +86,7 @@ export function NewsPage() {
         }
     }
     const currentLanguate = "en"
-    console.log(articles)
+    console.log(isLoading, "isLoading")
     const showSearchHeader = !!search.length || !!country
     return <div className="container">
         <div className="row">
@@ -113,11 +114,13 @@ export function NewsPage() {
                     <button className="btn btn-primary" onClick={() => { setCurrentPage(currentPage + 1) }}>Load more ({currentPage})</button>
                 </div>
             </div>
-            <div>
-                {articles?.map((article: any) =>
-                    <h2><Link to={`/news-image/${btoa(article.urlToImage)}`}> {article.title}  </Link></h2>
-                )}
-            </div>
+            <WithLoading isLoading={isLoading}>
+                <div>
+                    {articles?.map((article: any) =>
+                        <h2><Link to={`/news-image/${btoa(article.urlToImage)}`}> {article.title}  </Link></h2>
+                    )}
+                </div>
+            </WithLoading>
         </div>
     </div>
 }

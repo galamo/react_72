@@ -15,7 +15,7 @@ const initialState = {
     }
 }
 
-export const settingsReducers = (state: any = initialState, action: { type: string, payload?: any }) => {
+export const newsReducers = (state: any = initialState, action: { type: string, payload?: any }) => {
     console.log(state)
     switch (action.type) {
         case ACTIONS.TIMEZONE.SET_TIMEZONE: {

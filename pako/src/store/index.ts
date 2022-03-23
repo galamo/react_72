@@ -1,4 +1,9 @@
-import { createStore, compose, applyMiddleware } from "redux"
-import { reducer } from "./reducers/settingsReducers"
+import { createStore, combineReducers, compose, applyMiddleware } from "redux"
+import { settingsReducers } from "./reducers/settingsReducers"
+import { newsReducers } from "./reducers/newsReducers"
 
-export const store = createStore(reducer)
+const rootReducer = combineReducers({
+    settingsReducers,
+    newsReducers
+})
+export const store = createStore(rootReducer)
