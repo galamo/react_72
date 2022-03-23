@@ -12,7 +12,7 @@ export function CountryPage() {
     const params = useParams()
     const navigate = useNavigate();
     const context = useContext(GlobalState)
-    const { currentCountry, isLoading } = useSelector((state: any) => state.currentCountry)
+    const { currentCountry, isLoading } = useSelector((state: any) => state?.settingsReducers?.currentCountry)
     const isPutin = params.country === "ru"
 
     useEffect(() => {

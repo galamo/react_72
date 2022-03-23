@@ -5,7 +5,8 @@ import { ACTIONS } from '../../../store/actions';
 
 
 export default function AppModal() {
-    const appModalErrorState = useSelector((state: any) => state.appModalError)
+
+    const appModalErrorState = useSelector((state: any) => state?.settingsReducers?.appModalError)
     const dispatch = useDispatch();
     const closeFn = () => { dispatch({ type: ACTIONS.MODAL_ERROR.CLOSE_MODAL }) }
     return (<Modal show={appModalErrorState.isOpen} onHide={closeFn}>

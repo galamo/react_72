@@ -7,8 +7,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { ACTIONS } from "../../../store/actions"
 
 export function SettingsPage() {
-    const timezone: any = useSelector((state: any) => state.timezone)
-    const userName: any = useSelector((state: any) => state.userName)
+    const { timezone, userName } = useSelector((state: any) => state.settingsReducers)
     const reduxDispatch = useDispatch()
     return <div className="container">
         <div className="row" >

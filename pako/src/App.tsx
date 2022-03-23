@@ -69,7 +69,7 @@ const reducer = (state: IGlobalState, action: { type: string, payload?: any }) =
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const reduxState: any = useSelector(state => state)
+  const reduxState: any = useSelector((state: any) => state.settingsReducers)
   console.log(state, "global state!!!")
   return (
     <GlobalState.Provider value={{ dispatch, userProfile: state.userProfile, timezone: state.timezone }}>
